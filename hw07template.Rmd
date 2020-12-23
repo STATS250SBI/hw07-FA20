@@ -1,0 +1,103 @@
+---
+title: "STATS 250: Homework 7"
+author: "Homework Team"
+date: "October 28, 2020"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_collapsed: true
+    theme: lumen
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("prop_test.R")
+```
+
+### Tutorial: A Helpful Function
+
+We've made a function for you to use called `prop_test()` which will compute confidence intervals and perform hypothesis tests to address questions about population proportions. There are a few key arguments that you'll need:
+
+1. **`x`**: A vector of up to two *counts* (the number of "successes")
+2. **`n`**: A vector of up to two sample sizes for each group
+3. **`alternative`**: One of "`two.sided`", "`less`", or "`greater`", specifying the direction of the alternative hypothesis (if not specified, two-sided is used)
+4. **`conf.level`**: The confidence level of the returned confidence interval. Must be a value between 0 and 1 (if not specified, 0.95 is used)
+
+Let's do a quick example together to see how this works. We will use the MythBusters' `yawning.csv` data set from Lab 7. Recall that we have a control group and a treatment group. The control group had someone near them who did not yawn. The treatment group has someone near them yawn. Then we observe whether or not this person also yawned. 
+
+Thus we are counting up the number of successes as the number who did yawn, and group 1 is the control group, and group 2 is the treatment group.
+
+```{r readDataMakeTable}
+# Step 1: read in the data - Remember to set stringsAsFactors = TRUE!
+yawning <- read.csv("yawning.csv", stringsAsFactors = T)
+
+# Step 2: make a two-way table of two categorical variables
+addmargins(table(yawning$group, yawning$result))
+```
+We see here that there are 4 who yawned in the control group, the control group has a sample size of 16, 10 yawned in the treatment group, and the treatment group has a sample size of 34. Let's use this information to create a 95% confidence interval to estimate the difference in the two population proportions of those who yawned (control - treatment).
+
+```{r propTestEx1}
+# Step 3: use the prop_test() function by plugging in the values we listed above
+# Note that 4 successes corresponds to an n of 16; 10 successes goes with n = 34.
+prop_test(x = c(4, 10), n = c(16, 34))
+```
+
+We can see that the 95% confidence interval for the difference in population proportions (treatment - control) is (-0.306, 0.218). We can also grab the value of the test statistic, -0.324, and the p-value, 0.746. This p-value is for a two-sided alternative hypothesis. If we want only a one-sided p-value, then we will need to specify the direction of the alternative hypothesis.
+
+```{r propTestEx2}
+# Step 3: use the prop_test() function by plugging in the values we listed above
+# Note that 4 successes corresponds to an n of 16; 10 successes goes with n = 34.
+prop_test(x = c(4, 10), n = c(16, 34), alternative = "less")
+```
+
+Notice that our p-value in this example is 0.373, for an alternative hypothesis that is less. **NOTE: In order to compute an appropriate confidence interval, you MUST conduct a "two-sided" hypothesis test.** The confidence interval that is generated on a one-sided test is junk, as having a difference in proportions of -1.00 makes no sense in our context. 
+
+## Question 1: MWrite
+
+This week, in preparation for your second MWrite Prompt, we will use summaries from a data set constructed from a random sample of the Stats 250 Fall 2020 Student Survey (if you filled it out, you may be part of this dataset!)
+
+The data set `stats250_MWrite2.csv` contains the following list of variables:
+
+| Variable name | Description |
+|:--------------|:----------------------------------------|
+|`AA.Return`| Returned to Ann Arbor originally for Fall 2020 (Yes, No) |
+|`Class.Status`| Class Standing (Under, Upper) |
+|`In.State.Status`| U-M residency status (Yes = In-State, No = Out-of-State Domestic & International) |
+|`Hometown.Status`| Type of hometown (City, Suburb/Small Town) |
+|`Party.Attend`| Goes to parties (Yes, No) |
+
+
+<hr />
+
+You are asked to select *two* variables that are associated with a student's decision to come to Ann Arbor to perform a statistical analysis on, generating inference output from RStudio. You'll look at the proportion of students who returned to Ann Arbor for the two different categories of this variable. 
+
+### Question 1, Part a
+Pick one variable from the options to learn how this variable is associated with returning to Ann Arbor for Fall 2020. Make a two-way frequency table of the variables 'AA.Return' and the variable you pick. Don't forget to load in the data set called `stats250_MWrite2.csv` (making sure to give it a name)
+
+```{r Q1a, error = T}
+# Replace this comment with your code or add it to the next line
+
+```
+
+### Question 1, Part b
+
+Generate inference output in the form of either a confidence interval or a hypothesis test to include in Question 1 part b.  Once you've generated this output, include it as a screenshot or copy and paste your results into the course.work question.  Be sure to answer the follow up questions on course.work.
+
+```{r Q1b, error = T}
+# Replace this comment with your code or add it to the next line
+
+```
+
+### Question 1, Part c
+
+Pick a second variable from the options to learn how this variable is associated with returning to Ann Arbor for Fall 2020.  You'll look at the proportion of students who returned to Ann Arbor for the two different categories of this variable. You will want to make a two-way frequency table of the variables 'AA.Return' and the variable you pick. In particular, generate inference output in the form of either a confidence interval or a hypothesis test to include in Question 1 part c.  Once you've generated this output, include it as a screenshot or copy and paste your results into the course.work question.  Be sure to answer the follow up questions on course.work. 
+
+```{r Q1c, error = T}
+# Replace this comment with your code or add it to the next line
+
+```
+
+## Wrapping Up
+
+Make sure that you submit the appropriate output from this RStudio Project to the corresponding questions on course.work.
